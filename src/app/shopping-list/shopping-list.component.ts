@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-shopping-list',
-    template: './shopping-list.component.html',
+    templateUrl: './shopping-list.component.html',
     styles: ['./shopping-list.component.css']
 })
 
