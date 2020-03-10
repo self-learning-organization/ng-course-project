@@ -13,4 +13,8 @@ export class ShoppingListComponent {
         new Ingredient('Cocao Powder', 75, "grams"),
         new Ingredient('Coconut Flour', 30, "grams")
     ];
+
+    onIngredientAdded(ingredient: Ingredient) {
+        this.ingredients.push(ingredient);
+    }
 }
