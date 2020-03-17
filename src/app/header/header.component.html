@@ -22,7 +22,7 @@
                 <li><a [routerLink]="['shopping-list']" style="cursor: pointer">Shopping List</a></li> -->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li *ngIf="isAuthenticated">
+                <li *ngIf="isAuthenticated" (click)="onLogout()">
                     <a style="cursor: pointer;">Logout</a>
                 </li>
                 <li *ngIf="isAuthenticated"
