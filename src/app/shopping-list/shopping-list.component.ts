@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Ingredient } from '../shared/ingredient.model'
 import { ShoppingListService } from './shopping-list.service';
 import { LoggingService } from '../logging.service';
+import * as fromShoppingList from './store/shopping-list.reducer'; // "from..."'s a convention for describing an import to your reducer and/or your state for a certain part of your application
 
 @Component({
     selector: 'app-shopping-list',
@@ -19,7 +20,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     constructor(
         private shoppingListService: ShoppingListService, 
         private loggingService: LoggingService,
-        private store: Store<{shoppingList: {ingredients: Ingredient[]}}>) {
+        private store: Store<fromShoppingList.AppState>) {
     }
 
     ngOnInit() {
