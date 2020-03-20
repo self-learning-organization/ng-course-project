@@ -28,7 +28,8 @@ export class AuthenticateSuccess implements Action {
             email: string, 
             userId: string, 
             token: string, 
-            expirationDate: Date
+            expirationDate: Date,
+            redirect: boolean
         }
     ) {}
 }
@@ -45,7 +46,7 @@ export class SignupStart implements Action {
     constructor(
         public payload: {
             email: string;
-            password: string
+            password: string;
         }
     ) {}
 }
