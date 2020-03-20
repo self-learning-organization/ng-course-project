@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { RecipeService } from '../recipes.service';
 import * as fromApp from '../../store/app.reducer';
+import * as RecipeActions from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.css']
 })
-export class RecipeEditComponent implements OnInit {
+export class RecipeEditComponent implements OnInit, OnDestroy {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
+
+  private storeSub: Subscription;
 
   constructor(
     private route: ActivatedRoute, 
@@ -33,6 +37,12 @@ export class RecipeEditComponent implements OnInit {
     )
   }
 
+  ngOnDestroy() {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
+  }
+
   onSubmit() {
     // const newRecipe = new Recipe(
     //   this.recipeForm.value.['name'],
@@ -40,11 +50,20 @@ export class RecipeEditComponent implements OnInit {
     //   this.recipeForm.value['imagePath'],
     //   this.recipeForm.value['ingredients']);
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+      // this.recipeService.updateRecipe(this.id, this.recipeForm.value);
+      this.store.dispatch(
+        new RecipeActions.UpdateRecipe({
+          index: this.id, 
+          newRecipe: this.recipeForm.value
+        })
+      );
     } else {
       console.log(this.recipeForm.value);
-      this.recipeService.addRecipe(this.recipeForm.value); // Can use this instead of newRecipe since the value of 
-    }                                                      // the form has exactly the format of our recipe model and the same names 
+      // this.recipeService.addRecipe(this.recipeForm.value); // Can use this instead of newRecipe since the value of the form has exactly the format of our recipe model and the same names 
+      this.store.dispatch(
+        new RecipeActions.AddRecipe(this.recipeForm.value)
+      );
+    }
     this.onCancel();
   }
 
@@ -81,7 +100,7 @@ export class RecipeEditComponent implements OnInit {
 
     if (this.editMode) {
       // const recipe = this.recipeService.getRecipe(this.id);
-      this.store.select('recipes')
+      this.storeSub = this.store.select('recipes')
       .pipe(
         map(recipesState => {
           return recipesState.recipes.find((recipe, index) => {
