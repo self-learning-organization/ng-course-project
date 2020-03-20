@@ -9,7 +9,7 @@ const initialState: State = {
     recipes: []
 };
 
-export function recipeReducer(state, action: RecipesActions.RecipesActions) {
+export function recipeReducer(state = initialState, action: RecipesActions.RecipesActions) {
     switch (action.type) {
         case RecipesActions.SET_RECIPES:
             return {
