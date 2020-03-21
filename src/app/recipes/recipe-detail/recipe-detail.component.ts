@@ -44,7 +44,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   onAddToShoppingList() {
-    this.store.dispatch(new ShoppingListActions.AddIngredients(this.recipe.ingredients));
+    this.store.dispatch(ShoppingListActions.addIngredients({ingredients: this.recipe.ingredients}));
   }
 
   onEditRecipe() {
@@ -54,7 +54,7 @@ export class RecipeDetailComponent implements OnInit {
 
   onDeleteRecipe() {
     // this.recipeService.deleteRecipe(this.id);
-    this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
+    this.store.dispatch(RecipeActions.deleteRecipe({index: this.id}));
     this.router.navigate(['/recipes']);
   }
 }
